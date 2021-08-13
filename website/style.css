@@ -103,8 +103,8 @@ form {
 
 /* hover effect */
 #generate:hover span {
-  animation: rotate 2s ease infinite;
-  -webkit-animation: rotate 2s ease infinite;
+  animation: rotate 2s linear infinite;
+  -webkit-animation: rotate 2s linear infinite;
 }
 
 /* animation */
