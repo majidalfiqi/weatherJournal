@@ -32,39 +32,22 @@
     <!-- style -->
     <link rel="stylesheet" href="style.css" />
     <!-- script -->
-    <script src="app.js"></script>
+    <script src="viewAll.js"></script>
 
-    <title>Weather Journal App</title>
+    <title>Weather Journal App - View All Data</title>
   </head>
   <body>
     <div class="container">
       <!-- title -->
       <h1><span class="fas fa-poo-storm"></span> Weather Journal App</h1>
-      <!-- form -->
-      <form action="/addEntry" method="POST">
-        <div class="zip">
-          <label for="zip">Zip Code:</label>
-          <input type="text" id="zip" name="zip" placeholder="Enter zip code here" />
-        </div>
-        <div class="feelings">
-          <label for="feelings">Feelings:</label>
-          <textarea
-            name="feelings"
-            id="feelings"
-            cols="30"
-            rows="10"
-            placeholder="How are you feeling today?"
-          ></textarea>
-        </div>
-        <button type="submit" id="generate"><span class="fas fa-spinner"></span> Generate</button>
-      </form>
-      <!-- requested data -->
-      <h2>Fetched Data</h2>
       <div id="entryHolder">
-        <div id="date"></div>
-        <div id="temp"></div>
-        <div id="content"></div>
-        <a href="/viewall" target="_blank">View all data</a>
+        <template id="template">
+          <div class="entry">
+            <div class="date"></div>
+            <div class="temp"></div>
+            <div class="content"></div>
+          </div>
+        </template>
       </div>
     </div>
   </body>

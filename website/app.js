@@ -82,6 +82,10 @@ addEventListener("DOMContentLoaded", () => {
             date.innerHTML = data.date;
             temp.innerHTML = data.temp + "°C";
             content.innerHTML = data.content;
+
+            // empty the fields
+            zip.value = "";
+            feelings.value = "";
           })
           // if status is not 'ok' catch the error;
           .catch((err) => console.log(err));

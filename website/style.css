@@ -142,8 +142,9 @@ h2 {
 
 /* fetched data */
 #entryHolder {
-  height: 30%;
+  height: 40%;
   width: 300px;
+  font-weight: bold;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,4 +155,9 @@ h2 {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+}
+
+a {
+  color: var(--clr-accent);
+  font-weight: normal;
 }

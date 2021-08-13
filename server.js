@@ -22,18 +22,26 @@ app.use(bodyParser.json());
 app.listen(PORT, () => console.log("Server is running on localhost:" + PORT));
 
 // GET route at /data
+app.get("/all", (req, res) => {
+  console.log('GET request received at "/all".');
+  res.send(projectData);
+  console.log("Response sent with the following:");
+  console.log(projectData);
+});
+
+// GET route at /data
 app.get("/data", (req, res) => {
   console.log('GET request received at "/data".');
-  console.log(projectData[projectData.length - 1]);
   res.send(projectData[projectData.length - 1]);
-  console.log("Response sent");
+  console.log("Response sent with following:");
+  console.log(projectData[projectData.length - 1]);
 });
 
 // POST request at /add
 app.post("/add", (req, res) => {
   console.log('POST request received at "/add".');
   projectData.push(req.body);
-  console.log("Data added to endpoint.");
+  console.log("The following data was added to endpoint:");
   console.log(projectData[projectData.length - 1]);
   res.send({
     data: req.body,
