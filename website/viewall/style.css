@@ -27,7 +27,9 @@ body {
 .container {
   background: var(--clr-bg);
   height: 700px;
+  max-height: 99vh;
   width: 500px;
+  max-width: 99vw;
   border-radius: 15px;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -50,6 +52,7 @@ body {
 #entryHolder {
   height: 90%;
   width: 450px;
+  max-width: 99%;
   font-weight: bold;
   display: flex;
   flex-direction: column;
