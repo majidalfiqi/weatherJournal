@@ -54,10 +54,9 @@ addEventListener("DOMContentLoaded", () => {
 
     // set the dynamic url using the API Key
     let base = "http://api.openweathermap.org/data/2.5/weather?zip=";
-    let url = base + zip.value + "&appid=" + API_KEY;
 
     // get the weather data from openWeatherMap
-    getData(url)
+    getData(base + zip.value + "&appid=" + API_KEY)
       // if data retrieve successfully process the data
       .then((data) => {
         // get the date and temperature from the received data
