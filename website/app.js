@@ -24,7 +24,7 @@ addEventListener("DOMContentLoaded", () => {
 
   // POST request function
   const addData = async (url, data) => {
-    //fetch the response
+    // fetch the response
     const res = await fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -55,9 +55,9 @@ addEventListener("DOMContentLoaded", () => {
     // set the dynamic url using the API Key
     let url = "http://api.openweathermap.org/data/2.5/weather?zip=" + zip.value + "&appid=" + API_KEY;
 
-    //get the weather data from openWeatherMap
+    // get the weather data from openWeatherMap
     getData(url)
-      //if data retrieve successfully process the data
+      // if data retrieve successfully process the data
       .then((data) => {
         // get the date and temperature from the received data
         const newDate = new Date(data.dt * 1000).toDateString();
@@ -75,17 +75,24 @@ addEventListener("DOMContentLoaded", () => {
 
         // send the retrieved data to the server
         addData("/add", weather)
-          //if data posted successfully update the UI
-          .then((data) => {
-            console.log(data);
-            // set the fields to their corresponding values from the last object of the data array
-            date.innerHTML = data.date;
-            temp.innerHTML = data.temp + "°C";
-            content.innerHTML = data.content;
+          // if data posted successfully update the UI
+          .then(() => {
+            // get the last entry from our server
+            getData("/data")
+              // if data retrieve successfully process the data
+              .then((data) => {
+                console.log(data);
+                // set the fields to their corresponding values from the last object of the data array
+                date.innerHTML = data.date;
+                temp.innerHTML = data.temp + "°C";
+                content.innerHTML = data.content;
 
-            // empty the fields
-            zip.value = "";
-            feelings.value = "";
+                // empty the fields
+                zip.value = "";
+                feelings.value = "";
+              })
+              // if status is not 'ok' catch the error;
+              .catch((err) => console.log(err));
           })
           // if status is not 'ok' catch the error;
           .catch((err) => console.log(err));
