@@ -67,14 +67,15 @@ addEventListener("DOMContentLoaded", () => {
         const newContent = feelings.value;
 
         // combine all the data in an object
-        const weather = {
+        return {
           date: newDate,
           temp: newTemp,
           content: newContent,
         };
-
+      })
+      .then((data) => {
         // send the retrieved data to the server
-        addData("/add", weather)
+        addData("/add", data)
           // if data posted successfully update the UI
           .then(() => {
             // get the last entry from our server
