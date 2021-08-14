@@ -53,7 +53,8 @@ addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     // set the dynamic url using the API Key
-    let url = "http://api.openweathermap.org/data/2.5/weather?zip=" + zip.value + "&appid=" + API_KEY;
+    let base = "http://api.openweathermap.org/data/2.5/weather?zip=";
+    let url = base + zip.value + "&appid=" + API_KEY;
 
     // get the weather data from openWeatherMap
     getData(url)
