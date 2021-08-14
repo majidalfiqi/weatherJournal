@@ -1,6 +1,13 @@
-# Weather Journal
+# Weather Journal <!-- omit in toc -->
 
 This project consists of a server side code and a client side code for a website that is gets weather data from [OpenWeatherMap](OpenWeatherMap.org) and gets how the user is feeling today and posts the data to the server. The project was done as part of a [Udacity](Udacity.com) nanodegree under the [Egypt FWD Initiative](egfwd.com).
+
+## Table of Content
+
+- [Table of Content](#table-of-content)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
 
 ## Installation
 
