@@ -31,7 +31,7 @@ const API_KEY = "&appid=<YOUR_API_KEY>&units=metric";
 ## Todos
 
 - [x] Remove `kToC` function and add `&units=metric` to the GET request.
-- [ ] Make `projectData` an object that holds the latest data entry and add an array `data` that holds historical data.
+- [x] Make `projectData` an object that holds the latest data entry and add an array `data` that holds historical data.
 - [ ] Check input validity for `zip.value` and show descriptive message in case of invalidity.
 - [ ] \(Optional) Implement requests with axios instead of fetch.
 
