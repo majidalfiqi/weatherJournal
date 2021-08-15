@@ -7,6 +7,7 @@ This project consists of a server side code and a client side code for a website
 - [Table of Content](#table-of-content)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Todos](#todos)
 - [License](#license)
 
 ## Installation
@@ -26,6 +27,13 @@ In order to use this project, you will need to go to [OpenWeatherMap](OpenWeathe
 ```javascript
 const API_KEY = "your_api_key";
 ```
+
+## Todos
+
+- [ ] Remove `kToC` function and add `&units=metric` to the GET request.
+- [ ] Make `projectData` an object that holds the latest data entry and add an array `data` that holds historical data.
+- [ ] Check input validity for `zip.value` and show descriptive message in case of invalidity.
+- [ ] \(Optional) Implement requests with axios instead of fetch.
 
 ## License
 
