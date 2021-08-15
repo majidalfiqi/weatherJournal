@@ -22,15 +22,15 @@ npm install
 
 ## Usage
 
-In order to use this project, you will need to go to [OpenWeatherMap](OpenWeatherMap.org), register and get an api key. then open `./website/app.js` and place your api key in the following variable:
+In order to use this project, you will need to go to [OpenWeatherMap](OpenWeatherMap.org), register and get an api key. then open `./website/app.js` and place your api key in the following variable replacing `<YOUR_API_KEY>` with your api key:
 
 ```javascript
-const API_KEY = "your_api_key";
+const API_KEY = "&appid=<YOUR_API_KEY>&units=metric";
 ```
 
 ## Todos
 
-- [ ] Remove `kToC` function and add `&units=metric` to the GET request.
+- [x] Remove `kToC` function and add `&units=metric` to the GET request.
 - [ ] Make `projectData` an object that holds the latest data entry and add an array `data` that holds historical data.
 - [ ] Check input validity for `zip.value` and show descriptive message in case of invalidity.
 - [ ] \(Optional) Implement requests with axios instead of fetch.

@@ -1,7 +1,7 @@
 // wait for the content to load
 addEventListener("DOMContentLoaded", () => {
   // openWeatherMap API key
-  const API_KEY = "db047bc0b0cb7e9da7f9c3e58ad11256";
+  const API_KEY = "&appid=db047bc0b0cb7e9da7f9c3e58ad11256&units=metric";
 
   // selecting elements
   const zip = document.getElementById("zip");
@@ -44,9 +44,6 @@ addEventListener("DOMContentLoaded", () => {
     else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
   };
 
-  // kelvin to celsius
-  const kToC = (f) => f - 273.15;
-
   // button click event handler
   const clicked = (e) => {
     // prevent the dafault submit action of refreshing the page
@@ -56,12 +53,12 @@ addEventListener("DOMContentLoaded", () => {
     let base = "http://api.openweathermap.org/data/2.5/weather?zip=";
 
     // get the weather data from openWeatherMap
-    getData(base + zip.value + "&appid=" + API_KEY)
+    getData(base + zip.value + API_KEY)
       // if data retrieve successfully process the data
       .then((data) => {
         // get the date and temperature from the received data
         const newDate = new Date(data.dt * 1000).toDateString();
-        const newTemp = kToC(data.main.temp).toFixed(2);
+        const newTemp = data.main.temp;
 
         // get the content from the feelings field
         const newContent = feelings.value;
