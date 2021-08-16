@@ -3,6 +3,7 @@
   --clr-body: #bdd9bf;
   --clr-bg: #2e4052;
   --clr-accent: #ffc857;
+  --clr-warn: #fb4d3d;
 }
 
 /* resets */
@@ -62,11 +63,34 @@ form {
 /* form sections */
 .zip,
 .feelings {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 300px;
   max-width: 60vw;
+}
+
+/* validation messages */
+.zip::before,
+.feelings::before {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  color: var(--clr-warn);
+}
+
+.zip::before {
+  content: "Invalid zip format!";
+}
+
+.feelings::before {
+  content: "Feelings can't be empty!";
+}
+
+/* util class to hide pseudo elements */
+.no-pseudo::before {
+  display: none;
 }
 
 /* input fields */

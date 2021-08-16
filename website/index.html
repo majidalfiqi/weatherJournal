@@ -41,12 +41,12 @@
       <!-- title -->
       <h1><span class="fas fa-poo-storm"></span> Weather Journal App</h1>
       <!-- form -->
-      <form action="/addEntry" method="POST">
-        <div class="zip">
+      <form action="/add" method="POST">
+        <div class="zip no-pseudo">
           <label for="zip">Zip Code:</label>
-          <input type="text" id="zip" name="zip" placeholder="Enter zip code here" />
+          <input type="text" id="zip" name="zip" placeholder="Enter zip code here" autofocus />
         </div>
-        <div class="feelings">
+        <div class="feelings no-pseudo">
           <label for="feelings">Feelings:</label>
           <textarea
             name="feelings"

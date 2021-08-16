@@ -44,61 +44,86 @@ addEventListener("DOMContentLoaded", () => {
     else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
   };
 
-  // button click event handler
-  const clicked = (e) => {
-    // prevent the dafault submit action of refreshing the page
-    e.preventDefault();
+  // prevent default event handler (will not be removed while processing)
+  const preventDefault = (e) => e.preventDefault();
 
-    // set the dynamic url using the API Key
-    let base = "http://api.openweathermap.org/data/2.5/weather?zip=";
+  // button click event handler (will be removed while processing)
+  const clicked = () => {
+    if (!zip.value.match(/^\d{5}$/)) {
+      // zip format entered is not valid
+      // show message
+      zip.parentElement.classList.remove("no-pseudo");
+      //focus on input field
+      zip.focus();
+      // hide message when typing starts
+      zip.addEventListener("input", () => zip.parentElement.classList.add("no-pseudo"));
+    } else if (feelings.value === "") {
+      // feelings is empty
+      // show message
+      feelings.parentElement.classList.remove("no-pseudo");
+      //focus on input field
+      feelings.focus();
+      // hide message when typing starts
+      feelings.addEventListener("input", () => feelings.parentElement.classList.add("no-pseudo"));
+    } else {
+      // remove click event listener to prevent requests before completion
+      generate.removeEventListener("click", clicked);
 
-    // get the weather data from openWeatherMap
-    getData(base + zip.value + API_KEY)
-      // if data retrieve successfully process the data
-      .then((data) => {
-        // get the date and temperature from the received data
-        const newDate = new Date(data.dt * 1000).toDateString();
-        const newTemp = data.main.temp;
+      // set the dynamic url using the API Key
+      const base = "http://api.openweathermap.org/data/2.5/weather?zip=";
 
-        // get the content from the feelings field
-        const newContent = feelings.value;
+      // get the weather data from openWeatherMap
+      getData(base + zip.value + API_KEY)
+        // if data retrieve successfully process the data
+        .then((data) => {
+          // get the date and temperature from the received data
+          const newDate = new Date(data.dt * 1000).toDateString();
+          const newTemp = data.main.temp;
 
-        // combine all the data in an object
-        return {
-          date: newDate,
-          temp: newTemp,
-          content: newContent,
-        };
-      })
-      .then((data) => {
-        // send the retrieved data to the server
-        addData("/add", data)
-          // if data posted successfully update the UI
-          .then(() => {
-            // get the last entry from our server
-            getData("/data")
-              // if data retrieve successfully process the data
-              .then((data) => {
-                console.log(data);
-                // set the fields to their corresponding values from the last object of the data array
-                date.innerHTML = data.date;
-                temp.innerHTML = data.temp + "°C";
-                content.innerHTML = data.content;
+          // get the content from the feelings field
+          const newContent = feelings.value;
 
-                // empty the fields
-                zip.value = "";
-                feelings.value = "";
-              })
-              // if status is not 'ok' catch the error;
-              .catch((err) => console.log(err));
-          })
-          // if status is not 'ok' catch the error;
-          .catch((err) => console.log(err));
-      })
-      // if status is not 'ok' catch the error;
-      .catch((err) => console.log(err));
+          // combine all the data in an object
+          return {
+            date: newDate,
+            temp: newTemp,
+            content: newContent,
+          };
+        })
+        .then((data) => {
+          // send the retrieved data to the server
+          addData("/add", data)
+            // if data posted successfully update the UI
+            .then(() => {
+              // get the last entry from our server
+              getData("/data")
+                // if data retrieve successfully process the data
+                .then((data) => {
+                  console.log(data);
+                  // set the fields to their corresponding values from the last object of the data array
+                  date.innerHTML = data.date;
+                  temp.innerHTML = data.temp + "°C";
+                  content.innerHTML = data.content;
+
+                  // empty the fields
+                  zip.value = "";
+                  feelings.value = "";
+
+                  // add click event listener again after finishing
+                  generate.addEventListener("click", clicked);
+                })
+                // if status is not 'ok' catch the error;
+                .catch((err) => console.log(err));
+            })
+            // if status is not 'ok' catch the error;
+            .catch((err) => console.log(err));
+        })
+        // if status is not 'ok' catch the error;
+        .catch((err) => console.log(err));
+    }
   };
 
-  // button event listener
+  // button event listeners
+  generate.addEventListener("click", preventDefault);
   generate.addEventListener("click", clicked);
 });
