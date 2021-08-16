@@ -45,8 +45,18 @@ body {
 }
 
 /* title */
-.container h1 {
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title h1 {
   font-weight: bold;
+}
+
+.title img {
+  height: 50px;
+  margin-right: 10px;
 }
 
 /* form */

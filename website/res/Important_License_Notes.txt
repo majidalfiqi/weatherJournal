@@ -1,0 +1,8 @@
+"favicon.svg" & "favicon.ico" are based on "cloud-moon-rain-solid.svg" which belongs to "Fonticons, Inc." the owner of "fontawesome.com" and it is licensed under the "Creative Commons Attribution 4.0 International license".
+
+Link to Fontawesome.com license:
+https://fontawesome.com/license
+
+Modifications made:
+- change the color of the icon parts.
+- convert the icon to ico for usage as a favicon.
