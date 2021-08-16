@@ -3,16 +3,13 @@ addEventListener("DOMContentLoaded", () => {
   // elements selectors
   const entryHolder = document.getElementById("entryHolder");
   const template = document.getElementById("template");
+  const errorMsg = document.getElementById("error");
 
   // GET request function
   const getData = async (url) => {
     // fetch the response
-    const res = await fetch(url);
-
-    // if the status is 'ok' parse as json
-    if (res.ok) return await res.json();
-    // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    const res = await axios.get(url);
+    return res.data;
   };
 
   //get the data from our server
@@ -42,6 +39,25 @@ addEventListener("DOMContentLoaded", () => {
       // append the fragment to the entry holder
       entryHolder.appendChild(frag);
     })
-    // if status is not 'ok' catch the error;
-    .catch((err) => console.log(err));
+    // in case of an error;
+    .catch((err) => {
+      if (err.response) {
+        // response with a not ok status
+        console.log(
+          `Error!\nRequest error code: ${err.response.status}\nRequest error message: ${err.response.statusText}`
+        );
+        errorMsg.innerText = `Error!\nRequest error code: ${err.response.status}\nRequest error message: ${err.response.statusText}`;
+      } else if (err.request) {
+        // no response from the server
+        console.log(err.request);
+        errorMsg.innerText = err.request;
+      } else {
+        // another error
+        console.log(err.message);
+        errorMsg.innerText = err.message;
+      }
+
+      // show error message
+      errorMsg.style.display = "block";
+    });
 });

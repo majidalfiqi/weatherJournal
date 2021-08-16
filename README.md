@@ -7,7 +7,7 @@ This project consists of a server side code and a client side code for a website
 - [Table of Content](#table-of-content)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Todos](#todos)
+- [Branches](#branches)
 - [License](#license)
 
 ## Installation
@@ -28,12 +28,12 @@ In order to use this project, you will need to go to [OpenWeatherMap](OpenWeathe
 const API_KEY = "&appid=<YOUR_API_KEY>&units=metric";
 ```
 
-## Todos
+## Branches
 
-- [x] Remove `kToC` function and add `&units=metric` to the GET request.
-- [x] Make `projectData` an object that holds the latest data entry and add an array `data` that holds historical data.
-- [x] Check input validity for `zip.value` and show descriptive message in case of invalidity.
-- [ ] \(Optional) Implement requests with axios instead of fetch.
+This repository contains two branches:
+
+- A branch named `main` which uses the FetchAPI for the HTTP requests.
+- A branch named `axios` which uses the axios module for the HTTP requests.
 
 ## License
 

@@ -10,38 +10,23 @@ addEventListener("DOMContentLoaded", () => {
   const date = document.getElementById("date");
   const temp = document.getElementById("temp");
   const content = document.getElementById("content");
+  const errorMsg = document.getElementById("error");
 
   // GET request function
   const getData = async (url) => {
     // fetch the response
-    const res = await fetch(url);
-
-    // if the status is 'ok' parse as json
-    if (res.ok) return await res.json();
-    // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    const res = await axios.get(url);
+    return res.data;
   };
 
   // POST request function
   const addData = async (url, data) => {
     // fetch the response
-    const res = await fetch(url, {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const res = await axios.post(url, data);
 
-    // if the status is 'ok' log the returned message from the server that confirms the addition of the data
-    if (res.ok) {
-      const parsed = await res.json();
-      console.log("Response from server: " + parsed.msg);
-      return parsed.data;
-    }
-    // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    //log the returned message from the server that confirms the addition of the data
+    console.log("Response from server: " + res.data.msg);
+    return res.data.data;
   };
 
   // prevent default event handler (will not be removed while processing)
@@ -90,36 +75,64 @@ addEventListener("DOMContentLoaded", () => {
             content: newContent,
           };
         })
+        // send the retrieved data to the server
         .then((data) => {
-          // send the retrieved data to the server
-          addData("/add", data)
-            // if data posted successfully update the UI
-            .then(() => {
-              // get the last entry from our server
-              getData("/data")
-                // if data retrieve successfully process the data
-                .then((data) => {
-                  console.log(data);
-                  // set the fields to their corresponding values from the last object of the data array
-                  date.innerHTML = data.date;
-                  temp.innerHTML = data.temp + "°C";
-                  content.innerHTML = data.content;
-
-                  // empty the fields
-                  zip.value = "";
-                  feelings.value = "";
-
-                  // add click event listener again after finishing
-                  generate.addEventListener("click", clicked);
-                })
-                // if status is not 'ok' catch the error;
-                .catch((err) => console.log(err));
-            })
-            // if status is not 'ok' catch the error;
-            .catch((err) => console.log(err));
+          addData("/add", data);
         })
-        // if status is not 'ok' catch the error;
-        .catch((err) => console.log(err));
+        // if data posted successfully update the UI
+        // get the last entry from our server
+        .then(() => getData("/data"))
+        // if data retrieve successfully process the data
+        .then((data) => {
+          console.log(data);
+          // set the fields to their corresponding values from the last object of the data array
+          date.innerHTML = data.date;
+          temp.innerHTML = data.temp + "°C";
+          content.innerHTML = data.content;
+
+          // empty the fields
+          zip.value = "";
+          feelings.value = "";
+
+          // focus on the input field
+          zip.focus();
+
+          // add click event listener again after finishing
+          generate.addEventListener("click", clicked);
+        })
+        // in case of an error;
+        .catch((err) => {
+          if (err.response) {
+            // response with a not ok status
+            console.log(
+              `Error!\nRequest error code: ${err.response.status}\nRequest error message: ${err.response.statusText}`
+            );
+            errorMsg.innerText = `Error!\nRequest error code: ${err.response.status}\nRequest error message: ${err.response.statusText}`;
+          } else if (err.request) {
+            // no response from the server
+            console.log(err.request);
+            errorMsg.innerText = err.request;
+          } else {
+            // another error
+            console.log(err.message);
+            errorMsg.innerText = err.message;
+          }
+
+          // show error message
+          errorMsg.style.display = "block";
+          // add click event listner on the document to hide the error on click
+          const removeError = () => {
+            errorMsg.style.display = "none";
+            document.removeEventListener("click", removeError);
+          };
+          document.addEventListener("click", removeError);
+
+          // add click event listener again in case an error happens before adding it
+          generate.addEventListener("click", clicked);
+
+          // focus on the input field
+          zip.focus();
+        });
     }
   };
 
