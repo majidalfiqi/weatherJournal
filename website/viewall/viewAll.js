@@ -12,7 +12,7 @@ addEventListener("DOMContentLoaded", () => {
     // if the status is 'ok' parse as json
     if (res.ok) return await res.json();
     // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    else throw await res.json();
   };
 
   //get the data from our server
@@ -42,6 +42,19 @@ addEventListener("DOMContentLoaded", () => {
       // append the fragment to the entry holder
       entryHolder.appendChild(frag);
     })
-    // if status is not 'ok' catch the error;
-    .catch((err) => console.log(err));
+    // in case of an error;
+    .catch((err) => {
+      if (err.cod) {
+        // response with a not ok status
+        console.log(`Error!\nRequest error code: ${err.cod}\nRequest error message: ${err.message}`);
+        errorMsg.innerText = `Error!\nRequest error code: ${err.cod}\nRequest error message: ${err.message}`;
+      } else {
+        // another error
+        console.log(err);
+        errorMsg.innerText = err;
+      }
+
+      // show error message
+      errorMsg.style.display = "block";
+    });
 });

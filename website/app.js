@@ -10,6 +10,7 @@ addEventListener("DOMContentLoaded", () => {
   const date = document.getElementById("date");
   const temp = document.getElementById("temp");
   const content = document.getElementById("content");
+  const errorMsg = document.getElementById("error");
 
   // GET request function
   const getData = async (url) => {
@@ -19,7 +20,7 @@ addEventListener("DOMContentLoaded", () => {
     // if the status is 'ok' parse as json
     if (res.ok) return await res.json();
     // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    else throw await res.json();
   };
 
   // POST request function
@@ -41,7 +42,7 @@ addEventListener("DOMContentLoaded", () => {
       return parsed.data;
     }
     // if status is not 'ok' throw an error to be caught by the catch statement
-    else throw `Error!\nRequest error code: ${res.status}\nRequest error message: ${res.statusText}`;
+    else throw await res.json();
   };
 
   // prevent default event handler (will not be removed while processing)
@@ -90,36 +91,55 @@ addEventListener("DOMContentLoaded", () => {
             content: newContent,
           };
         })
+        // send the retrieved data to the server
+        .then((data) => addData("/add", data))
+        // if data posted successfully get the last entry from our server
+        .then(() => getData("/data"))
+        // if data retrieve successfully update the UI
         .then((data) => {
-          // send the retrieved data to the server
-          addData("/add", data)
-            // if data posted successfully update the UI
-            .then(() => {
-              // get the last entry from our server
-              getData("/data")
-                // if data retrieve successfully process the data
-                .then((data) => {
-                  console.log(data);
-                  // set the fields to their corresponding values from the last object of the data array
-                  date.innerHTML = data.date;
-                  temp.innerHTML = data.temp + "°C";
-                  content.innerHTML = data.content;
+          console.log(data);
+          // set the fields to their corresponding values from the last object of the data array
+          date.innerHTML = data.date;
+          temp.innerHTML = data.temp + "°C";
+          content.innerHTML = data.content;
 
-                  // empty the fields
-                  zip.value = "";
-                  feelings.value = "";
+          // empty the fields
+          zip.value = "";
+          feelings.value = "";
 
-                  // add click event listener again after finishing
-                  generate.addEventListener("click", clicked);
-                })
-                // if status is not 'ok' catch the error;
-                .catch((err) => console.log(err));
-            })
-            // if status is not 'ok' catch the error;
-            .catch((err) => console.log(err));
+          // focus on input field
+          zip.focus();
+
+          // add click event listener again after finishing
+          generate.addEventListener("click", clicked);
         })
         // if status is not 'ok' catch the error;
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.cod) {
+            // response with a not ok status
+            console.log(`Error!\nRequest error code: ${err.cod}\nRequest error message: ${err.message}`);
+            errorMsg.innerText = `Error!\nRequest error code: ${err.cod}\nRequest error message: ${err.message}`;
+          } else {
+            // another error
+            console.log(err);
+            errorMsg.innerText = err;
+          }
+
+          // show error message
+          errorMsg.style.display = "block";
+          // add click event listner on the document to hide the error on click
+          const removeError = () => {
+            errorMsg.style.display = "none";
+            document.removeEventListener("click", removeError);
+          };
+          document.addEventListener("click", removeError);
+
+          // focus on input field
+          zip.focus();
+
+          // add click event listener again in case an error happens before adding it
+          generate.addEventListener("click", clicked);
+        });
     }
   };
 

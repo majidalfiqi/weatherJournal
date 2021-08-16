@@ -42,6 +42,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  position: relative;
 }
 
 /* title */
@@ -201,4 +202,22 @@ h2 {
 a {
   color: var(--clr-accent);
   font-weight: normal;
+}
+
+/* error msg */
+#error {
+  display: none;
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: var(--clr-warn);
+  color: #fff;
+  box-shadow: 3px 3px 10px #0006;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
